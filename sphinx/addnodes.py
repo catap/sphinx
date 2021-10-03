@@ -16,9 +16,11 @@ from docutils.nodes import Element, Node
 
 from sphinx.deprecation import RemovedInSphinx40Warning
 
+from sphinx.util import docutils
+
 if False:
-    # For type annotation
     from sphinx.application import Sphinx
+    # For type annotation
 
 
 class document(nodes.document):
@@ -412,13 +414,15 @@ def setup(app: "Sphinx") -> Dict[str, Any]:
     app.add_node(start_of_file)
     app.add_node(highlightlang)
     app.add_node(tabular_col_spec)
-    app.add_node(meta)
     app.add_node(pending_xref)
     app.add_node(number_reference)
     app.add_node(download_reference)
     app.add_node(literal_emphasis)
     app.add_node(literal_strong)
     app.add_node(manpage)
+
+    if docutils.__version_info__ < (0, 18):
+        app.add_node(meta)
 
     return {
         'version': 'builtin',
